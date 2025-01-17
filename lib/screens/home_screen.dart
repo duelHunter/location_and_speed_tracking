@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             LocationTile(
               title: "Current Speed",
               trailing: currentSpeed != null
-                  ? Text("${currentSpeed!.toStringAsFixed(2)} m/s")
+                  ? Text("${currentSpeed!.toStringAsFixed(2)} km/h")
                   : const Text("N/A"),
             ),
             Expanded(
@@ -126,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void startTracking() async {
     subscription = location.onLocationChanged.listen((event) {
       setState(() {
-        currentSpeed = event.speed; // Speed is in meters/second
+        // Convert speed from m/s to km/h
+        currentSpeed = event.speed != null ? event.speed! * 3.6 : null;
         locations.insert(0, event);
       });
     });
